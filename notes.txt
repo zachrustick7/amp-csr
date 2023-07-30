@@ -1,0 +1,62 @@
+user: {
+    name: 'zach rustick',
+    email: 'zachrustick7@gmail.com',
+    phone: '999-999-9999',
+    card: {
+        number: 1111222233334444,
+        expiration: '12/28',
+        cvv: '123'
+    },
+    subscriptions: [
+        {
+            tier: 'standard',
+            vehicle: {
+                make: 'honda',
+                model: 'civic',
+                year: '2017',
+                color: 'grey'
+            }
+        }
+    ],
+    purchaseHistory: [
+        {
+            date: '2015-03-25T12:00:00Z',
+            purchase: 'single wash'
+        },
+        {
+            date: '2020-05-25T12:00:00Z',
+            purchase: 'standard membership'
+        }
+    ]
+}
+
+vehicle: {
+    make: 'honda',
+    model: 'civic',
+    year: '2017',
+    color: 'grey'
+}
+
+subscription: {
+    tier: 'premium',
+    vehicle: {
+        make: 'honda',
+        model: 'civic',
+        year: '2017',
+        color: 'grey'
+    }
+}
+
+tiers: [
+    'inactive',
+    'standard',
+    'premium',
+    'gold'
+];
+
+log: {
+    date: '2015-03-25',
+    action: 'purchased gold membership: grey honda civic 2017'
+}
+
+actions: (puchased, transfered, cancelled) (standard, silver, gold, platinum) membership: (color) (make) (model) (year)
