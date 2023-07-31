@@ -2,7 +2,6 @@ import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from '@mui/icons-material/DeleteTwoTone';
-import AddIcon from '@mui/icons-material/AddCircleTwoTone';
 import AccountIcon from '@mui/icons-material/AccountBoxRounded';
 import Chip from '@mui/joy/Chip';
 import Input from '@mui/joy/Input';
@@ -124,18 +123,7 @@ function Users(props) {
                         <th>Membership</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th style={{display: 'flex', justifyContent: 'end'}}>
-                            <div className='addIconButton'>
-                                Add
-                                <AddIcon
-                                    sx={{color: 'white'}}        
-                                    style={{
-                                        borderRadius: '100px',
-                                        width: '24px',
-                                        height: '24px'
-                                }}/>
-                            </div>
-                        </th>
+                        <th style={{display: 'flex', justifyContent: 'end'}}></th>
                     </tr>
                 </thead>
                 <tbody>

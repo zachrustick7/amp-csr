@@ -29,19 +29,55 @@ function UserInfo(props) {
 
     const [user, setUser] = useState();
     const [userIndex, setUserIndex] = useState();
+    const [saveUserDisabled, setSaveUserDisabled] = useState(false);
     const routeParams = useParams();
 
     const [editSubscriptionDialogOpen, setEditSubscriptionDialogOpen] = useState(false);
     const [subscriptionToEdit, setSubscriptionToEdit] = useState();
     const [subscriptionIndexToEdit, setSubscriptionIndexToEdit] = useState();
+    const [saveSubscriptionDisabled, setSaveSubscriptionDisabled] = useState(true);
 
     const [editEnabled, setEditEnabled] = useState(false);
 
     useEffect(() => {
         setUser(users[routeParams.userId]);
         setUserIndex(routeParams.userId);
-        console.log(users);
+        // eslint-disable-next-line
     }, [users]);
+
+    useEffect(() => {
+        if (!subscriptionToEdit ||
+            !subscriptionToEdit.tier ||
+            !subscriptionToEdit.vehicle.make ||
+            !subscriptionToEdit.vehicle.model ||
+            !subscriptionToEdit.vehicle.year ||
+            !subscriptionToEdit.vehicle.color ||
+            subscriptionToEdit.tier.trim().length === 0 ||
+            subscriptionToEdit.vehicle.make.trim().length === 0 ||
+            subscriptionToEdit.vehicle.model.trim().length === 0 ||
+            subscriptionToEdit.vehicle.year.trim().length === 0 ||
+            subscriptionToEdit.vehicle.color.trim().length === 0
+        ) {
+            setSaveSubscriptionDisabled(true);
+        } else {
+            setSaveSubscriptionDisabled(false);
+        }
+    }, [subscriptionToEdit])
+
+    useEffect(() => {
+        if (!user ||
+            !user.name ||
+            !user.email ||
+            !user.phone ||
+            user.name.trim().length === 0 ||
+            user.email.trim().length === 0 ||
+            user.phone.trim().length === 0
+        ) {
+            setSaveUserDisabled(true);
+        } else {
+            setSaveUserDisabled(false);
+        }
+    }, [user])
 
     const handleAddSubscription = () => {
         let tempSubscriptionToEdit = {
@@ -89,17 +125,21 @@ function UserInfo(props) {
     }
 
     const handleSaveAccountChanges = () => {
-        let tempUsers = _.cloneDeep(users);
-        tempUsers[userIndex] = _.cloneDeep(user);
-        dispatch(setUsers(tempUsers));
-        setEditEnabled(false);
+        if (!saveUserDisabled) {
+            let tempUsers = _.cloneDeep(users);
+            tempUsers[userIndex] = _.cloneDeep(user);
+            dispatch(setUsers(tempUsers));
+            setEditEnabled(false);
+        }
     }
 
     const handleSaveSubscription = () => {
-        let tempUsers = _.cloneDeep(users);
-        tempUsers[userIndex].subscriptions[subscriptionIndexToEdit] = _.cloneDeep(subscriptionToEdit);
-        dispatch(setUsers(tempUsers));
-        handleCloseSubscriptionEditDialog();
+        if (!saveSubscriptionDisabled) {
+            let tempUsers = _.cloneDeep(users);
+            tempUsers[userIndex].subscriptions[subscriptionIndexToEdit] = _.cloneDeep(subscriptionToEdit);
+            dispatch(setUsers(tempUsers));
+            handleCloseSubscriptionEditDialog();
+        }
     }
 
     const handleCloseSubscriptionEditDialog = () => {
@@ -157,7 +197,14 @@ function UserInfo(props) {
                         </div> :
                         <div
                             className='addIconButton'
-                            style={{marginLeft: '8px', fontWeight: '800', position: 'absolute', top: '10px', right: '0'}}
+                            style={{
+                                marginLeft: '8px',
+                                fontWeight: '800',
+                                position: 'absolute',
+                                top: '10px',
+                                right: '0',
+                                backgroundColor: (editEnabled && saveUserDisabled) ? 'grey' : ''
+                            }}
                             onClick={() => handleSaveAccountChanges()}
                         >
                             {editEnabled ? 'save' : 'edit'}
@@ -417,7 +464,7 @@ function UserInfo(props) {
                             </div>
                             <div
                                 className='addIconButton'
-                                style={{marginLeft: '8px', fontWeight: '800' }}
+                                style={{marginLeft: '8px', fontWeight: '800', backgroundColor: saveSubscriptionDisabled ?  'grey' : ''}}
                                 onClick={() => handleSaveSubscription()}
                             >
                                 Save

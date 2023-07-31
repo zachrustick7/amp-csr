@@ -1,12 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
 import Divider from '@mui/joy/Divider';
 
-
 function FAQ(props) {
-
-    const navigate = useNavigate();
 
     return (
         <div className='Page-container'>
